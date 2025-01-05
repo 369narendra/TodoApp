@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Use an updated connection string and remove deprecated options
-const connectionString = 'mongodb+srv://userdb:cblsmgsoekfasclkzvn@cluster0.yqdse.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const connectionString = '';
                           
 mongoose.connect(connectionString)
   .then(() => {
