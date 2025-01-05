@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Custom Styling */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #FFA500;
+            font-size: 3em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: #28a745;
+            font-size: 1.5em;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        .list-group-item .btn {
+            width: 90px;
+            font-size: 0.9rem;
+        }
+
+        .list-group-item:hover {
+            background-color: #e8e8e8;
+        }
+
+        .btn-custom {
+            margin-top: 15px;
+            padding: 12px;
+            font-size: 1.1rem;
+        }
+
+        select,
+        input[type="date"] {
+            font-size: 1rem;
+        }
+
+        .task-form input,
+        .task-form select {
+            margin-bottom: 12px;
+        }
+
+        .filter-form select {
+            width: 200px;
+        }
+
+        .d-flex {
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn-custom:hover,
+        .btn-danger:hover,
+        .btn-warning:hover,
+        .btn-success:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 30px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            .list-group-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .list-group-item .btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .filter-form select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            .list-group-item {
+                padding: 10px;
+            }
+
+            .btn-custom {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container col-lg-8">
+        <div class="card">
+            <h1 class="text-center">To-Do App</h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Welcome: <%= user %></h2>
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </div>
+
+            <!-- Form to add a task -->
+            <form method="POST" action="/add" class="task-form">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Task name" name="todo" required>
+                    </div>
+                    <div class="col">
+                        <select id="tasktype" name="category" class="form-control" required>
+                            <option value="Personal">Personal</option>
+                            <option value="Professional">Professional</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="date" class="form-control" name="date" required>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary btn-custom">Add Task</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Filter tasks -->
+            <div class="col-12 my-3 d-flex justify-content-center">
+                <form method="get" action="/filter" class="filter-form">
+                    <select id="filter" name="filter" class="form-control" onchange="this.form.submit()">
+                        <option value="Personal">Personal</option>
+                        <option value="Professional">Professional</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </form>
+            </div>
+
+            <!-- Display list of tasks -->
+            <ul class="list-group">
+                <% todo.forEach(todos => { %>
+                <li class="list-group-item">
+                    <div class="row w-100">
+                        <div class="col">
+                            <%= todos.todo %>
+                        </div>
+                        <div class="col">
+                            <%= todos.category %>
+                        </div>
+                        <div class="col">
+                            <%= new Date(todos.date).toLocaleDateString() %>
+                        </div>
+                        <div class="col">
+                            <a href="/delete/<%= todos._id %>" class="btn btn-danger">Delete</a>
+                        </div>
+                        <div class="col">
+                            <a href="/update/<%= todos._id %>" class="btn btn-warning">Update</a>
+                        </div>
+                        <div class="col">
+                            <a href="/completed/<%= todos._id %>" class="btn btn-success">Completed</a>
+                        </div>
+                    </div>
+                </li>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+</html>

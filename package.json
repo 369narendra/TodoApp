@@ -1,0 +1,20 @@
+{
+  "name": "todo_learn",
+  "version": "1.0.0",
+  "description": "Developing Todo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "Narendra",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
